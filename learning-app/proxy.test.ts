@@ -8,9 +8,20 @@ function run(path: string) {
 }
 
 describe("proxy: real 404s for invalid tutorial days", () => {
-  it("only runs on /tutorial/:day", () => {
-    expect(config.matcher).toBe("/tutorial/:day");
+  it("runs on lesson and interactive paths", () => {
+    expect(config.matcher).toEqual(["/tutorial/:day", "/tutorial/:day/interactive"]);
   });
+
+  it.each(["/tutorial/1/interactive", "/tutorial/2/interactive"])("lets %s through", (path) => {
+    expect(run(path).headers.get("x-middleware-next")).toBe("1");
+  });
+
+  it.each(["/tutorial/45/interactive", "/tutorial/91/interactive", "/tutorial/abc/interactive"])(
+    "404s %s (no interactive page for that day)",
+    (path) => {
+      expect(run(path).headers.get("x-middleware-rewrite")).toContain("/_invalid-day");
+    },
+  );
 
   it.each(["/tutorial/1", "/tutorial/9", "/tutorial/45", "/tutorial/90", "/tutorial/%39"])(
     "lets %s through",

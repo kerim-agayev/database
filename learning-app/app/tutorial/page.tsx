@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { hasLesson } from "@/content/lessons";
+import { hasInteractive } from "@/lib/interactive-days";
 import {
   TOTAL_DAYS,
   completedCount,
@@ -62,6 +63,11 @@ export default function TutorialIndex() {
                 <span className="ml-2 text-sm">
                   {d.kind === "gate" ? "[değerlendirme kapısı] " : ""}
                   {d.kind === "review" ? "[tekrar] " : ""}
+                  {hasInteractive(d.day) ? (
+                    <Link href={`/tutorial/${d.day}/interactive`} className="underline">
+                      [oyunlar]
+                    </Link>
+                  ) : null}{" "}
                   {isCompleted(d.day)
                     ? "[tamamlandı] "
                     : hasLesson(d.day)

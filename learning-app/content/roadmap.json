@@ -93,10 +93,10 @@
       "day": 2,
       "week": 1,
       "kind": "lesson",
-      "objective": "Veritabanı, DBMS ve storage engine farkı; bir DBMS'in bileşenleri",
-      "source": "DI Böl. 1, NC S10",
-      "handsOn": "Sim: DBMS mimarisi gezgini → kendi çizimin",
-      "selfCheck": "Storage engine nerede biter, sorgu işlemcisi nerede başlar?"
+      "objective": "Veritabanı, DBMS, storage engine ve bağlantı: restoran benzetmesiyle kim kimdir",
+      "source": "DI Böl. 1 (yalnızca mimari kısmı), PG \"Architectural Fundamentals\"",
+      "handsOn": "Sim: /tutorial/2/interactive (kim kim, siparişin yolculuğu, kaç garson); Lab: client backend sayımı",
+      "selfCheck": "Bu dört kelimeyi restoran benzetmesiyle 4–5 cümlede anlatabiliyor musun?"
     },
     {
       "day": 3,

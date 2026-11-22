@@ -11,12 +11,13 @@ Her şey **sentetik restoran verisiyle** yapılır. Hiçbir şirket verisi, şem
 | `CLAUDE.md` | Claude Code'un her oturumda **otomatik okuduğu** giriş dosyası: kurallar, kesinleşen kararlar, dil kuralı |
 | `DATABASE_CLAUDE.md` | Programın tam sözleşmesi (öğretim ilkeleri, teslimatlar, güvenlik kuralları) |
 | `SESSION_LOG.md` | **Nerede kaldığımızın günlüğü.** Her adımdan sonra bir kayıt eklenir |
+| `TEACHING_METHOD.md` | **Nasıl öğretiliyor:** restoran benzetmesi, günde en fazla 5 yeni kelime, hatırlama, Feynman, her güne etkileşimli oyun sayfası |
 | `ROADMAP.md` | Onaylı 90 günlük plan (gün gün hedef, kaynak, uygulama, öz-kontrol) |
 | `LEARNING_PROGRESS.md` | İlerleme kanıtları: hangi gün tamamlandı, güven düzeyi, açık sorular |
 | `DATABASE_GLOSSARY.md` | Terim sözlüğü |
 | `SOURCE_CATALOG.md`, `COURSE_MAP_HUSSEIN_NASSER.md` | Kaynak envanteri ve konu kontrol listesi |
 | `PROJECT_PROPOSALS.md`, `docs/adr/` | Proje kararı ve mimari karar kayıtları |
-| `learning-app/` | Next.js öğrenme uygulaması: `/tutorial/1` … `/tutorial/90` |
+| `learning-app/` | Next.js öğrenme uygulaması: `/tutorial/1` … `/tutorial/90` ders sayfaları ve `/tutorial/N/interactive` oyun sayfaları |
 | `db-lab/` | Docker'da gerçek PostgreSQL 18 laboratuvarı ve alıştırma verisi |
 
 ## Başka bir bilgisayarda devam etmek

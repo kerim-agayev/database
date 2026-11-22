@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { DayNav } from "@/components/day-nav";
 import { LessonView, PlannedDay } from "@/components/lesson-view";
 import { getLesson } from "@/content/lessons";
+import Link from "next/link";
+import { hasInteractive } from "@/lib/interactive-days";
 import {
   TOTAL_DAYS,
   dayParams,
@@ -78,6 +80,16 @@ export default async function DayPage({ params }: PageProps<"/tutorial/[day]">) 
           className="mt-3 h-2 w-full"
         />
       </header>
+
+      {hasInteractive(n) ? (
+        <p className="rounded-lg border-2 border-blue-700 p-4">
+          <strong>Oynayarak öğren:</strong> bu günün sürükle-bırak oyunları ve animasyonları
+          hazır.{" "}
+          <Link href={`/tutorial/${n}/interactive`} className="font-semibold underline">
+            {n}. günün etkileşimli sayfasını aç →
+          </Link>
+        </p>
+      ) : null}
 
       {lesson ? <LessonView lesson={lesson} plan={plan} /> : <PlannedDay plan={plan} />}
 

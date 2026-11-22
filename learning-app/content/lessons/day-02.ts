@@ -2,55 +2,70 @@ import type { Lesson } from "./types";
 
 export const day02: Lesson = {
   day: 2,
-  title: "Veritabanı, DBMS ve storage engine: harita",
+  title: "Veritabanı bir restorandır: kim kimdir?",
   goals: [
-    "Sık karıştırılan üç kelimeyi ayırt etmek: veritabanı (database), DBMS ve storage engine.",
-    "Bir DBMS'in ana bileşenlerini ve her birinin sorumluluğunu adlandırmak.",
-    "Bir sorguyu PostgreSQL'de, istemciden geri dönen satırlara kadar izlemek.",
-    "Bu parçalardan bazılarını kendi lab veritabanında çalışırken görmek.",
+    "Dört kelimeyi restoran benzetmesiyle ayırt etmek: veritabanı, DBMS, storage engine, bağlantı.",
+    "Bir SQL sorgusunun restorandaki bir sipariş gibi yol aldığını görmek.",
+    "Kendi lab'ında \"kaç garson çalışıyor?\" sorusunun cevabını görmek.",
   ],
   recap:
-    "Dün her sonucun bir grain'i olduğunu ve SQL'in yazıldığından farklı bir sırayla işlendiğini (FROM, SELECT'ten önce) öğrendin. Bugün bir adım geri çekilip Execute'a bastığın an ile satırların ekrana geldiği an arasında veritabanının ne yaptığına bakıyoruz. İfadelerin sırası bu hikâyenin yalnızca ilk kısmıydı.",
+    "Dün grain kavramını öğrendin: sonuçtaki bir satırın neyi temsil ettiği. Bugün sorguların kendisinden bir adım geri çekiliyoruz ve şunu soruyoruz: sorguyu kime gönderiyorsun, kim cevaplıyor? Bugünkü dört kelimeyi tanıdık bir yerden, restorandan öğreneceğiz.",
+  recall: [
+    {
+      question: "Sonuçtaki bir satırın neyi temsil ettiğine ne denir?",
+      answer: "Grain (ayrıntı düzeyi). Örneğin JOIN'den sonra bir satır bir sipariş değil, bir sipariş kalemidir.",
+    },
+    {
+      question: "GROUP BY gruplardan sonra grupları hangi ifade filtreler?",
+      answer: "HAVING. WHERE ise gruplamadan önce tek tek satırları filtreler.",
+    },
+  ],
+  analogy: {
+    intro:
+      "Veritabanı dünyasını bir restoran gibi düşün. Bu dünyayı işinden zaten çok iyi biliyorsun: sipariş, mutfak, depo, garson.",
+    rows: [
+      { term: "Veritabanı (database)", analogy: "Depodaki malzemeler. Yani verinin kendisi: siparişler, ürünler, fiyatlar." },
+      { term: "DBMS (PostgreSQL, SQL Server)", analogy: "Restoranın tüm işletmesi: personel, mutfak, kurallar. Depoyu kullanan ve yöneten organizasyon." },
+      { term: "Storage engine (depolama motoru)", analogy: "Depo sorumlusu. Malzemeyi rafa yerleştirir, istenince bulup getirir, kaybolmasın diye kayıt tutar." },
+      { term: "Bağlantı (connection)", analogy: "Masana ayrılmış garson. Her müşteriye (her bağlantıya) ayrı bir garson." },
+      { term: "SQL sorgusu", analogy: "Sipariş fişi. Ne istediğini yazarsın; nasıl hazırlanacağı mutfağın işidir." },
+    ],
+  },
+  newTerms: [
+    { term: "Veritabanı (database)", plain: "Verinin kendisi: düzenli tutulan bilgiler. Bizim lab'daki adı restaurant." },
+    { term: "DBMS", plain: "Veritabanını yöneten yazılım. PostgreSQL ve SQL Server birer DBMS'tir." },
+    { term: "Storage engine", plain: "DBMS'in, veriyi diske yazan, bulan ve kaybolmaktan koruyan parçası." },
+    { term: "Bağlantı (connection)", plain: "Senin programınla veritabanı sunucusu arasındaki açık hat. PostgreSQL her bağlantıya ayrı bir sunucu süreci ayırır." },
+  ],
   concept: [
     {
-      heading: "Kolayca karıştırılan üç kelime",
+      heading: "Neden bu kelimeler önemli?",
       paragraphs: [
-        "Veritabanı (database), verinin kendisi, yani düzenlenmiş veri topluluğudur; örneğin bir restoran şirketinin verisi. PostgreSQL'de bir sunucu adlandırılmış birkaç veritabanı barındırabilir; bizimkinin adı restaurant.",
-        "DBMS (veritabanı yönetim sistemi), veritabanlarını yöneten yazılımdır: bağlantıları kabul eder, sorgularını anlar, birçok kullanıcının aynı anda çalışmasına izin verir ve veriyi güvende tutar. PostgreSQL, SQL Server ve MySQL birer DBMS'tir. İnsanlar \"veritabanı yavaş\" dediğinde genellikle DBMS'i ya da onun bir parçasını kastederler.",
-        "Storage engine (depolama motoru), DBMS'in veriyi diskte saklamaktan, bulmaktan ve kurtarmaktan sorumlu parçasıdır. PostgreSQL'de tablo depolaması, table access method adlı takılabilir bir bileşendir ve yerleşik varsayılan heap'tir. Bizim lab'da SHOW default_table_access_method komutu heap döndürüyor. MySQL gibi bazı sistemler motoru tablo başına seçmene izin verir. Bu son nokta genel bir bilgidir ve 40. günde doğrulayacağız.",
+        "İşte biri \"veritabanı yavaş\" dediğinde aslında dört şeyden birini kastediyor olabilir: verinin kendisi çok mu büyüdü (veritabanı), yazılım mı zorlanıyor (DBMS), diske yazma okuma mı yavaş (storage engine), yoksa çok fazla kişi aynı anda mı bağlı (bağlantılar)? Doğru kelimeyi bilmek, doğru yeri aramak demektir.",
       ],
     },
     {
-      heading: "Bir DBMS'in haritası",
+      heading: "Restoranda bir sipariş",
       paragraphs: [
-        "Petrov, Database Internals, 1. bölüm, yaygın bir yerleşim anlatır. İstemci istekleri bir transport alt sistemi üzerinden gelir. Bir sorgu işlemcisi (query processor) sorguyu ayrıştırır ve doğrular. Optimizer, onu yanıtlamanın en ucuz yolunu arar ve bir yürütme planı (execution plan) üretir. Yürütme motoru (execution engine) planı uygular. Yerel veri işini storage engine yapar; onun bir transaction manager'ı, bir lock manager'ı, erişim yöntemleri (heap dosyaları, B-tree'ler, LSM-tree'ler), page'leri bellekte tutan bir buffer manager'ı ve günlüğü tutan bir recovery manager'ı vardır.",
-        "Aynı bölüm ortak bir plan olmadığı konusunda da uyarır: her veritabanı biraz farklı kurulur ve kâğıt üzerinde var olan sınırlar, performans optimizasyonları yüzünden kodda bulanıklaşabilir. Yani \"storage engine nerede biter, sorgu işlemcisi nerede başlar?\" sorusunun dürüst cevabı iki parçalıdır. Fikir olarak: sorgu işlemcisi ne yapılacağına karar verir, storage engine bunu yerel veriye güvenle uygular. Gerçek kodda: çizgi tam keskin değildir.",
+        "Masaya oturursun, garsona sipariş fişini verirsin. Garson fişi mutfağa götürür. Mutfak fişi okur ve nasıl hazırlanacağına karar verir. Depo sorumlusu gereken malzemeyi depodan bulup getirir. Tabak hazırlanır ve masana gelir.",
+        "Veritabanında da aynısı olur: sen (ya da programın) bir SQL sorgusu yazarsın, sorgu bağlantın üzerinden gider, DBMS onu anlar ve karar verir, storage engine veriyi diskten bulur, sonuç tablosu sana döner. Mutfağın içinde tam olarak neler olduğunu yarın (3. gün) adım adım göreceğiz.",
       ],
     },
     {
-      heading: "PostgreSQL'de bir sorgunun yolu",
+      heading: "Garson sayısı = bağlantı sayısı",
       paragraphs: [
-        "PostgreSQL dokümanı yolu beş aşamada anlatır: bağlantı, parser, rewrite sistemi, planner/optimizer, executor. Parser söz dizimini kontrol eder ve bir sorgu ağacı kurar. Rewrite sistemi sistem kataloglarında saklanan kuralları uygular; view'lar böyle çalışır, çünkü bir view'a yazılan sorgu alttaki tabloları okuyacak şekilde yeniden yazılır. Planner, aynı sonucu elde etmek için birkaç aday yol çıkarır, örneğin sequential scan ya da index scan, her birinin maliyetini tahmin eder ve en ucuzunu tutar. Executor planı yürür, depolama sisteminden satırları ister ve sıralama, join ve filtrelemeyi yapar.",
-        "Aşağıdaki gezgini kullan. Bu basitleştirilmiş bir modeldir ve neyi dışarıda bıraktığını söyler.",
-      ],
-    },
-    {
-      heading: "Bir sunucu, birden fazla süreçtir",
-      paragraphs: [
-        "PostgreSQL istemci/sunucu modeli kullanır. Gözetmen (supervisor) bir süreç sürekli yeni istemcileri dinler ve her bağlantı için, yalnızca o istemciye hizmet eden yeni bir sunucu süreci başlatır (fork eder). PostgreSQL'de bağlantıların bedava olmaması bu yüzdendir; bu bilgi connection pooling haftasında önem kazanacak.",
-        "Bağlantı başına bu süreçlerin yanında, kimin bağlı olduğundan bağımsız olarak yapılması gereken işler için çalışan arka plan süreçleri de vardır. Lab'ında bunları kendin listeleyebilirsin; bugünün deneyi bu.",
+        "PostgreSQL her bağlantı için ayrı bir sunucu süreci başlatır; bu süreç yalnızca o bağlantıya hizmet eder. Restoranda bu, her masaya ayrı bir garson demektir. Sen iki psql penceresi açınca client backend sayısı 2 çıktı: iki masa, iki garson.",
+        "Bir de kimse gelmese de çalışan personel var: kayıt defterini yazan, temizliği başlatan, depoyu düzenleyen kişiler. Lab'da gördüğün checkpointer, walwriter, autovacuum launcher gibi satırlar bunlar. Her birini ileriki günlerde tek tek tanıyacağız; şimdilik \"arka planda çalışan ekip\" demen yeterli.",
       ],
     },
   ],
-  visual: "query-path",
   workedExample: {
-    title: "Çalışan PostgreSQL'inin içine bak",
+    title: "Kaç garson çalışıyor?",
     steps: [
-      "Bir terminal aç ve lab container'ının içinde psql'i başlat.",
-      "psql'de bir SQL ifadesi ancak noktalı virgülle (;) biter. Prompt restaurant=# ise yeni komut hazırdır; restaurant-# ise psql ifadenin devamını bekliyordur: ; yaz ya da Ctrl+C ile vazgeç. Çıkmak için \q yaz. Ayrıca cmd'de yapıştırmak için sağ tık ya da Shift+Insert kullan; Ctrl+V bazı konsollarda gizli bir ^V karakteri ekler.",
-      "Varsayılan table access method'un hangisi olduğunu ve hangi erişim yöntemlerinin var olduğunu sor.",
-      "Sunucunun süreçlerini pg_stat_activity ile listele.",
-      "Her backend_type'ı haritayla eşleştir: hangileri bağlantı başına, hangileri arka plan işi?",
+      "Bir terminal aç ve psql'e bağlan (aşağıdaki ilk satır). Artık bir bağlantın, yani bir garsonun var.",
+      "psql'de bir SQL ifadesi ancak noktalı virgülle (;) biter. Prompt restaurant=# ise yeni komut hazırdır; restaurant-# ise psql devamını bekliyordur: ; yaz ya da Ctrl+C ile vazgeç. Çıkmak için \\q yaz. cmd'de yapıştırmak için sağ tık ya da Shift+Insert kullan; Ctrl+V gizli bir ^V karakteri ekleyebilir.",
+      "Sorguyu çalıştır ve client backend satırına bak: bu sayı, şu an açık olan bağlantı (garson) sayısıdır.",
+      "Diğer satırlar arka plan ekibidir. Kimse bağlı olmasa da çalışırlar.",
     ],
     code: {
       label: "Bir terminalde çalıştır (Docker Desktop açık olmalı)",
@@ -58,125 +73,82 @@ export const day02: Lesson = {
       text: `# 1) Terminalde (cmd ya da PowerShell) psql'i aç:
 docker exec -it dblab-postgres psql -U lab -d restaurant
 
--- 2) psql'in içinde, her ifadeyi ; ile bitir ve ayrı ayrı gönder:
-SHOW default_table_access_method;
-SELECT amname, amtype FROM pg_am ORDER BY amtype, amname;
-SELECT backend_type FROM pg_stat_activity ORDER BY backend_type;`,
+-- 2) psql'in içinde (sonunda ; olsun):
+SELECT backend_type, count(*) FROM pg_stat_activity GROUP BY backend_type ORDER BY 1;`,
     },
   },
   challenge: {
-    task: "İki oturum açıkken client backend sayısını say.",
+    task: "Üç oturum açıkken kaç garson olduğunu bul. Sonra birini kapat ve tekrar bak.",
     predictFirst:
-      "İkinci bir terminalde başka bir psql oturumu açıp pg_stat_activity sorgusunu yeniden çalıştırırsan, backend_type = 'client backend' olan kaç satır beklersin ve neden?",
+      "Üç ayrı terminalde psql açıkken client backend kaç çıkar? Birini \\q ile kapatınca ne olur?",
     hints: [
-      "Kuralı hatırla: bağlantı başına bir sunucu süreci.",
-      "Sorguyu çalıştıran oturum da bir bağlantıdır.",
-      "Grafik arayüzlü bir SQL istemcisi kendi bağlantılarını açabilir. Önce onu kapat, yoksa fazladan satır bekle.",
+      "Kural: her bağlantıya ayrı bir garson (sunucu süreci).",
+      "Sorguyu çalıştırdığın pencere de bir bağlantıdır.",
+      "DBeaver gibi bir program açıksa o da kendi bağlantılarını açar; sayı fazladan artabilir.",
     ],
     expectedOutput:
-      "Açık her bağlantı için bir client backend, sorguyu çalıştıran da dahil. Bağlı başka bir şey yokken iki psql oturumuyla 2 görmelisin. Biz lab'ımızda tek oturum açıkken bunu çalıştırdığımızda 1 client backend gördük; yanında checkpointer, background writer, walwriter, autovacuum launcher, logical replication launcher ve üç io worker gibi arka plan süreçleri de vardı. Bu liste PostgreSQL 18.6'ya ve varsayılan ayarlara özgüdür; başka sürümlerde ya da ayarlarda farklı olabilir.",
-    code: {
-      label: "İlk oturumda çalıştırılacak sorgu",
-      language: "sql",
-      text: `SELECT backend_type, count(*)
-FROM pg_stat_activity
-GROUP BY backend_type
-ORDER BY backend_type;`,
-    },
+      "Üç oturum açıkken client backend = 3. Birini kapatınca 2'ye düşer. Arka plan ekibinin sayısı değişmez. Sen iki oturumla 2 gördün (2026-11-22, lab'ında), yani kural tuttu.",
   },
   knowledgeCheck: [
     {
+      id: "d2-depot",
+      prompt: "Restoran benzetmesinde \"depodaki malzemeler\" neyi temsil eder?",
+      options: ["DBMS", "Veritabanı (verinin kendisi)", "Storage engine", "Bağlantı"],
+      answer: 1,
+      explanation:
+        "Malzemeler verinin kendisidir, yani veritabanı. Onları yöneten organizasyon DBMS, yerleştirip bulan kişi storage engine'dir.",
+    },
+    {
       id: "d2-dbms",
-      prompt: "Bunlardan hangisi bir DBMS'tir?",
-      options: [
-        "orders tablosu",
-        "restaurant adlı bir veritabanı",
-        "PostgreSQL",
-        "heap table access method'u",
-      ],
+      prompt: "PostgreSQL hangisidir?",
+      options: ["Bir veritabanı", "Bir DBMS (veritabanını yöneten yazılım)", "Bir tablo", "Bir sorgu"],
+      answer: 1,
+      explanation:
+        "PostgreSQL bir yazılımdır; içinde restaurant gibi veritabanlarını yönetir. Restoranda bu, işletmenin kendisidir.",
+    },
+    {
+      id: "d2-engine",
+      prompt: "Malzemeyi rafa yerleştiren, istenince bulup getiren ve kaybolmasın diye kayıt tutan kişi hangisidir?",
+      options: ["Garson (bağlantı)", "Müşteri", "Depo sorumlusu (storage engine)", "Sipariş fişi (SQL)"],
       answer: 2,
       explanation:
-        "PostgreSQL, veritabanlarını yöneten yazılımdır. restaurant bir veritabanı, orders onun içindeki bir tablo, heap ise DBMS'in bir depolama bileşenidir.",
+        "Storage engine, DBMS'in veriyi diske yazan, bulan ve kaybolmaktan koruyan parçasıdır.",
     },
     {
-      id: "d2-planner",
-      prompt:
-        "Sorgun için sequential scan ile index scan arasında hangi aşama seçim yapar?",
-      options: ["Parser", "Rewrite sistemi", "Planner/optimizer", "Executor"],
-      answer: 2,
-      explanation:
-        "Planner aday yollar üretir, maliyetlerini tahmin eder ve en ucuzunu seçer. Seçilen planı sonra executor uygular.",
-    },
-    {
-      id: "d2-views",
-      prompt:
-        "PostgreSQL'de bir view'a yazılan sorgu hangi aşamada alttaki tablolara açılır?",
-      options: ["Parser", "Rewrite sistemi", "Planner/optimizer", "Storage engine"],
-      answer: 1,
-      explanation:
-        "Rewrite sistemi sistem kataloglarındaki kuralları uygular; view'lar böyle çalışır.",
-    },
-    {
-      id: "d2-connections",
-      prompt: "PostgreSQL aynı anda birçok istemciye nasıl hizmet verir?",
+      id: "d2-waiters",
+      prompt: "İki psql penceresi açıkken client backend neden 2 çıktı?",
       options: [
-        "Tüm istemcileri tek bir süreç içinde çalıştırır",
-        "Her bağlantı için yeni bir sunucu süreci başlatır",
-        "İlki bitene kadar ikinci bir bağlantıyı reddeder",
-        "Her sorguyu farklı bir sunucuya gönderir",
+        "PostgreSQL her bağlantıya ayrı bir sunucu süreci (garson) ayırır",
+        "Her tablo için bir süreç vardır",
+        "Docker her zaman iki tane başlatır",
+        "Rastgele bir sayıdır",
       ],
-      answer: 1,
+      answer: 0,
       explanation:
-        "Gözetmen bir süreç istemcileri bekler ve PostgreSQL dokümanında anlatıldığı gibi her bağlantı için ayrı bir sunucu süreci fork eder.",
-    },
-    {
-      id: "d2-boundary",
-      prompt:
-        "Petrov'a göre DBMS bileşenleri arasındaki sınırlar ne kadar nettir?",
-      options: [
-        "Her zaman tamamen keskin ve her veritabanında aynı",
-        "Görmesi biraz zor; ortak bir plan yok ve kod, performans için bileşenleri birbirine bağlayabilir",
-        "Hiç bileşen yok",
-        "Yalnızca storage engine'in sınırları vardır",
-      ],
-      answer: 1,
-      explanation:
-        "Petrov, her veritabanının biraz farklı kurulduğunu ve bileşen sınırlarının görülmesinin ve tanımlanmasının biraz zor olduğunu söyler.",
+        "İki bağlantı, iki sunucu süreci. Üçüncü pencereyi açarsan 3 olur.",
     },
   ],
+  feynman:
+    "Bir arkadaşına (ya da 12 yaşında birine) 4–5 cümleyle anlat: veritabanı, DBMS, storage engine ve bağlantı nedir? Restoran benzetmesini kullan, teknik kelimeleri olabildiğince az kullan. Takıldığın ya da emin olamadığın kelimeyi işaretle: o, geri dönüp bakman gereken yerdir. Yazdığını bana gönder; ben de boşlukları birlikte doldurayım.",
   references: [
-    {
-      title: "51.1. The Path of a Query (PostgreSQL 18 documentation)",
-      by: "The PostgreSQL Global Development Group",
-      url: "https://www.postgresql.org/docs/18/query-path.html",
-      accessed: "2026-11-11",
-      note: "Beş aşama: bağlantı, parser, rewrite sistemi, planner/optimizer, executor.",
-    },
     {
       title: "1.2. Architectural Fundamentals (PostgreSQL 18 documentation)",
       by: "The PostgreSQL Global Development Group",
       url: "https://www.postgresql.org/docs/18/tutorial-arch.html",
       accessed: "2026-11-11",
-      note: "İstemci/sunucu modeli; bağlantı başına bir sunucu süreci.",
-    },
-    {
-      title: "Chapter 62. Table Access Method Interface Definition (PostgreSQL 18)",
-      by: "The PostgreSQL Global Development Group",
-      url: "https://www.postgresql.org/docs/18/tableam.html",
-      accessed: "2026-11-11",
-      note: "Tablo depolaması takılabilirdir; heap referans uygulamadır.",
+      note: "İstemci/sunucu modeli; her bağlantı için ayrı bir sunucu süreci.",
     },
     {
       title: "Database Internals, 1. bölüm, \"DBMS Architecture\" kısmı",
       by: "Alex Petrov, O'Reilly, 2019",
-      note: "Bir DBMS'in bileşenleri; sınırlar bulanıktır.",
+      note: "Bir DBMS'in bileşenleri ve storage engine'in görevleri.",
     },
     {
-      title: "Ders lab'ında gözlem: Docker'da PostgreSQL 18.6",
-      by: "Bu deponun db-lab'ında 2026-11-11'de çalıştırıldı",
-      note: "default_table_access_method = heap; backend türleri görevde listelendi.",
+      title: "Senin lab gözlemin: Docker'da PostgreSQL 18.6",
+      by: "2026-11-22, iki psql oturumuyla",
+      note: "client backend = 2; arka plan ekibi: autovacuum launcher, background writer, checkpointer, io worker ×3, logical replication launcher, walwriter.",
     },
   ],
   reflection:
-    "Raporların bazen yavaş çalışıyor, stok sayıların bazen yanlış çıkıyor. Her durumda haritanın hangi kutularından şüphelenirdin ve neden? Tek bir doğru cevap yok; bunu programın sonunda yeniden ele alacağız.",
+    "İşte biri \"veritabanı yavaş\" derse, bu dört parçadan hangisinde sorun olabilir? Henüz bilmen gerekmiyor, sadece tahmin et ve nedenini bir cümleyle yaz.",
 };

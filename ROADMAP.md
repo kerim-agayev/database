@@ -49,7 +49,7 @@ Kapıda zayıf sonuç çıkarsa devam etmeden önce telafi günleri eklenir. Tak
 | Gün | Hedef | Kaynak | Uygulama → Çıktı | Öz-kontrol |
 |---|---|---|---|---|
 | 1 | Seviye tespiti ve grain kavramı: bildiklerin ile internals boşluklarının haritası | — | Kendi değerlendirmen ve SQL kalibrasyonu → LEARNING_PROGRESS.md'de başlangıç seviyesi | En zayıf 3 konu hangisi? |
-| 2 | Veritabanı, DBMS ve storage engine farkı; bir DBMS'in bileşenleri | DI Böl. 1, NC S10 | **Sim:** DBMS mimarisi gezgini → kendi çizimin | Storage engine nerede biter, sorgu işlemcisi nerede başlar? |
+| 2 | Veritabanı, DBMS, storage engine ve bağlantı: restoran benzetmesiyle kim kimdir | DI Böl. 1 (yalnızca mimari kısmı), PG "Architectural Fundamentals" | **Sim:** /tutorial/2/interactive (kim kim, siparişin yolculuğu, kaç garson); **Lab:** client backend sayımı | Bu dört kelimeyi restoran benzetmesiyle 4–5 cümlede anlatabiliyor musun? |
 | 3 | Bir sorgunun hayatı: istemci → parser → planner → executor → depolama | DI Böl. 1, PG "Overview of PostgreSQL Internals" | Bir SELECT'i katmanlardan izle → sıra diyagramı | Diske dokunmadan önce neler oluyor? |
 | 4 | OLTP ve OLAP; satır ve kolon depolama (giriş) | DDIA Böl. 3 (kolon depolama), NC S2 | 10 restoran iş yükünü sınıflandır → tablo | Günlük satış raporu neden OLTP şemasında yavaş çalışır? |
 | 5 | Yerel lab: Docker PostgreSQL, psql, compose, sürümü doğrula | PG kurulum dokümanı | **Lab:** `docker compose up`, bağlan, `SELECT version()` → `db-lab/` iskeleti ve deney günlüğü #1 | `docker compose down` sonrası ne kalır, ne gider? |
@@ -222,6 +222,15 @@ Kapıda zayıf sonuç çıkarsa devam etmeden önce telafi günleri eklenir. Tak
 2. **Anlama hızında ilerleme:** 90 *hedef* aynı kalır, ama takvim uzayabilir (gerçekçi tahmin 100–120 gün). Zayıf bir öz-kontrol ya da kapı sonrasında telafi günleri serbestçe eklenir.
 3. **Sıfırdan öğretim:** her ders "bu hangi sorunu çözüyor?" sorusu ve sade bir benzetmeyle başlar, internals'a ondan sonra geçilir.
 4. **İş alanına bağlama:** öğrencinin günlük alanı (sipariş, depo, envanter) her yerde ana örnektir, her zaman sentetik veriyle. 7–8. haftalar (envanter eşzamanlılığı) ekstra lab süresi alır.
+
+## İkinci ayarlama: öğretim yöntemi (2026-11-22)
+
+Öğrenci 2. günün ilk sürümünden "hiçbir şey anlamadım" dedi (bir derste 15'ten fazla yeni kavram vardı). Bundan sonra:
+
+1. Tüm günler [TEACHING_METHOD.md](TEACHING_METHOD.md) kurallarıyla öğretilir: önce restoran benzetmesi, günde en fazla 5 yeni kelime, derse hatırlama sorularıyla başlanır, Feynman ile bitirilir.
+2. **Her günün `/tutorial/N/interactive` sayfası olur:** sürükle-bırak, sıralama ve animasyonlu simülasyonlar.
+3. 2. gün daraltıldı: yalnızca veritabanı, DBMS, storage engine ve bağlantı. Sorgunun mutfaktaki yolu (parser, planner, executor) 3. güne taşındı.
+4. Zor bir gün iki güne bölünebilir. Takvim uzayabilir; anlamak önce gelir.
 
 ## Telafi politikası
 

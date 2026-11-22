@@ -10,6 +10,21 @@ export const day01: Lesson = {
   ],
   recap:
     "Bugün programın ilk günü, o yüzden hatırlanacak bir şey yok. Başlangıç seviyen LEARNING_PROGRESS.md dosyasına yazıldı: SQL paslı, veritabanı mühendisliğinin geri kalanı sıfırdan başlıyor ve bu, başlamak için gayet iyi bir yer.",
+  analogy: {
+    intro:
+      "Grain'i restorandaki bir fişle düşün. Bir fişin bir toplamı ve birkaç kalemi vardır.",
+    rows: [
+      { term: "orders tablosu", analogy: "Fişin kendisi: fiş numarası, tarih ve fişin altında yazan TOPLAM." },
+      { term: "order_lines tablosu", analogy: "Fişin kalemleri: 1 Pizza 12,50; 1 Salata 9,00; …" },
+      { term: "JOIN sonrası bir satır", analogy: "Bir kalem, yanında fişin toplamı da yazılı olarak. Toplam her kalemde tekrar eder." },
+      { term: "GROUP BY order_id", analogy: "Kalemleri yeniden kendi fişlerinin altında toplamak." },
+    ],
+  },
+  newTerms: [
+    { term: "Grain", plain: "Sonuçtaki bir satırın neyi temsil ettiği: bir fiş mi, bir kalem mi?" },
+    { term: "GROUP BY", plain: "Satırları gruplara toplar; örneğin kalemleri fişlerine göre." },
+    { term: "HAVING", plain: "Gruplar oluştuktan sonra grupları filtreler (WHERE ise önce tek tek satırları)." },
+  ],
   concept: [
     {
       heading: "Neden bir seviye tespiti?",
@@ -111,6 +126,8 @@ HAVING COUNT(*) = 1;`,
         "Veritabanları söz dizimini kontrol eder, anlamı değil. Grain hatası makul görünen yanlış bir sonuç üretir; bu yüzden hep \"bir satır neyi temsil ediyor?\" diye sor.",
     },
   ],
+  feynman:
+    "Bir arkadaşına fiş örneğiyle anlat: grain nedir, fişin toplamını tek bir kalemle karşılaştırmak neden yanlıştır, GROUP BY bunu nasıl düzeltir? 3–4 cümle yeter. Takıldığın yeri işaretle ve bana gönder.",
   references: [
     {
       title: "Alıştırma veri seti (sentetik restoran verisi)",

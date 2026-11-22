@@ -29,6 +29,20 @@ describe("written lessons", () => {
     expect(l.knowledgeCheck.length).toBeGreaterThanOrEqual(3);
     expect(l.references.length).toBeGreaterThan(0);
     expect(l.reflection.length).toBeGreaterThan(10);
+    expect(l.feynman.length).toBeGreaterThan(30);
+    expect(l.analogy.rows.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it.each(writtenDays)("day %i introduces at most 5 new terms (TEACHING_METHOD.md)", (n) => {
+    const terms = getLesson(n)!.newTerms;
+    expect(terms.length).toBeGreaterThanOrEqual(1);
+    expect(terms.length).toBeLessThanOrEqual(5);
+    for (const t of terms) expect(t.plain.length).toBeGreaterThan(10);
+  });
+
+  it.each(writtenDays.filter((d) => d > 1))("day %i starts with recall of earlier days", (n) => {
+    const recall = getLesson(n)!.recall ?? [];
+    expect(recall.length).toBeGreaterThanOrEqual(2);
   });
 
   it.each(writtenDays)("day %i quiz answers point at real options and ids are unique", (n) => {

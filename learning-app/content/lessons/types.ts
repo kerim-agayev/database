@@ -1,4 +1,7 @@
-/** Structured lesson content. Presentation lives in components/lesson-view.tsx. */
+/**
+ * Structured lesson content. Presentation lives in components/lesson-view.tsx.
+ * Teaching rules behind these fields: see ../../TEACHING_METHOD.md (repo root).
+ */
 
 export interface Reference {
   title: string;
@@ -32,8 +35,14 @@ export interface Lesson {
   goals: string[];
   /** 2–4 sentences connecting to the previous day. */
   recap: string;
+  /** Retrieval practice at the start: questions about earlier days, answers hidden. */
+  recall?: { question: string; answer: string }[];
+  /** Everyday analogy shown BEFORE any jargon (restaurant world). */
+  analogy: { intro: string; rows: { term: string; analogy: string }[] };
+  /** The only new words of the day. Rule: at most 5 (TEACHING_METHOD.md). */
+  newTerms: { term: string; plain: string }[];
   concept: { heading: string; paragraphs: string[] }[];
-  /** Which interactive visual to show (see components/lesson-view.tsx). */
+  /** Which interactive visual to show inside the lesson (see components/lesson-view.tsx). */
   visual?: "query-path";
   workedExample: { title: string; steps: string[]; code?: CodeBlock };
   challenge: {
@@ -44,6 +53,8 @@ export interface Lesson {
     code?: CodeBlock;
   };
   knowledgeCheck: Question[];
+  /** Feynman closing: explain it simply in your own words, find the gaps. */
+  feynman: string;
   references: Reference[];
   reflection: string;
 }

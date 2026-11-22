@@ -24,32 +24,15 @@ function H2({ id, children }: { id: string; children: React.ReactNode }) {
   );
 }
 
+/**
+ * Lesson order follows TEACHING_METHOD.md: recall first, everyday analogy before jargon,
+ * at most a handful of new words, then the idea, a worked example, a task,
+ * a knowledge check and a Feynman-style explanation in the learner's own words.
+ */
 export function LessonView({ lesson, plan }: { lesson: Lesson; plan: RoadmapDay }) {
   return (
     <article>
-      <h2 id="plan" className="text-xl font-semibold">
-        Bugünün planı
-      </h2>
-      <dl className="mt-2 space-y-1 text-sm">
-        <div>
-          <dt className="inline font-medium">Hedef: </dt>
-          <dd className="inline">{plan.objective}</dd>
-        </div>
-        <div>
-          <dt className="inline font-medium">Okuma kaynakları: </dt>
-          <dd className="inline">{plan.source}</dd>
-        </div>
-        <div>
-          <dt className="inline font-medium">Uygulama: </dt>
-          <dd className="inline">{plan.handsOn}</dd>
-        </div>
-        <div>
-          <dt className="inline font-medium">Öz-kontrol: </dt>
-          <dd className="inline">{plan.selfCheck}</dd>
-        </div>
-      </dl>
-
-      <H2 id="goals">Öğrenme hedefleri</H2>
+      <H2 id="goals">Bugün ne öğreneceksin?</H2>
       <ul className="mt-2 list-disc space-y-1 pl-5">
         {lesson.goals.map((g) => (
           <li key={g}>{g}</li>
@@ -58,6 +41,66 @@ export function LessonView({ lesson, plan }: { lesson: Lesson; plan: RoadmapDay 
 
       <H2 id="recap">Nerede kaldık</H2>
       <p className="mt-2">{lesson.recap}</p>
+
+      {lesson.recall && lesson.recall.length > 0 ? (
+        <>
+          <H2 id="recall">Önce hatırla (notlara bakmadan)</H2>
+          <p className="mt-2 text-sm">
+            Cevabı önce kafanda ya da kâğıtta söyle, sonra aç. Hatırlamaya çalışmak, tekrar
+            okumaktan daha kalıcı öğretir.
+          </p>
+          <ol className="mt-2 list-decimal space-y-2 pl-5">
+            {lesson.recall.map((r) => (
+              <li key={r.question}>
+                {r.question}
+                <details className="mt-1">
+                  <summary className="cursor-pointer text-sm underline">Cevabı göster</summary>
+                  <p className="mt-1 text-sm">{r.answer}</p>
+                </details>
+              </li>
+            ))}
+          </ol>
+        </>
+      ) : null}
+
+      <H2 id="analogy">Bugünün benzetmesi</H2>
+      <p className="mt-2">{lesson.analogy.intro}</p>
+      <div className="mt-3 overflow-x-auto">
+        <table className="w-full border-collapse text-sm">
+          <thead>
+            <tr>
+              <th scope="col" className="border-b border-zinc-400 p-2 text-left">
+                Veritabanı dünyasında
+              </th>
+              <th scope="col" className="border-b border-zinc-400 p-2 text-left">
+                Restoranda
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {lesson.analogy.rows.map((row) => (
+              <tr key={row.term}>
+                <th scope="row" className="border-b border-zinc-200 p-2 text-left align-top font-medium dark:border-zinc-800">
+                  {row.term}
+                </th>
+                <td className="border-b border-zinc-200 p-2 align-top dark:border-zinc-800">
+                  {row.analogy}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <H2 id="new-terms">Bugün yalnızca {lesson.newTerms.length} yeni kelime</H2>
+      <dl className="mt-2 space-y-2">
+        {lesson.newTerms.map((t) => (
+          <div key={t.term}>
+            <dt className="font-medium">{t.term}</dt>
+            <dd className="text-sm">{t.plain}</dd>
+          </div>
+        ))}
+      </dl>
 
       <H2 id="concept">Ana fikir</H2>
       {lesson.concept.map((section) => (
@@ -109,6 +152,9 @@ export function LessonView({ lesson, plan }: { lesson: Lesson; plan: RoadmapDay 
         <KnowledgeCheck questions={lesson.knowledgeCheck} />
       </div>
 
+      <H2 id="feynman">Kendi cümlelerinle anlat (Feynman)</H2>
+      <p className="mt-2">{lesson.feynman}</p>
+
       <H2 id="reflection">Düşünme notu</H2>
       <p className="mt-2">{lesson.reflection}</p>
 
@@ -129,6 +175,28 @@ export function LessonView({ lesson, plan }: { lesson: Lesson; plan: RoadmapDay 
           </li>
         ))}
       </ul>
+
+      <details className="mt-10 text-sm">
+        <summary className="cursor-pointer font-medium">Günün plandaki teknik özeti</summary>
+        <dl className="mt-2 space-y-1">
+          <div>
+            <dt className="inline font-medium">Hedef: </dt>
+            <dd className="inline">{plan.objective}</dd>
+          </div>
+          <div>
+            <dt className="inline font-medium">Okuma kaynakları: </dt>
+            <dd className="inline">{plan.source}</dd>
+          </div>
+          <div>
+            <dt className="inline font-medium">Uygulama: </dt>
+            <dd className="inline">{plan.handsOn}</dd>
+          </div>
+          <div>
+            <dt className="inline font-medium">Öz-kontrol: </dt>
+            <dd className="inline">{plan.selfCheck}</dd>
+          </div>
+        </dl>
+      </details>
     </article>
   );
 }

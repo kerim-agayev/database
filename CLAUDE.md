@@ -10,9 +10,16 @@ This file loads automatically at the start of every session, including after `/c
 
 0. Run `git status` and `git log -1 --format=%cd` (the learner works on several computers). If the working tree is clean and the remote is ahead, ask once, then `git pull`. Never discard or overwrite local changes.
 1. Read the **last 3 entries** of [SESSION_LOG.md](SESSION_LOG.md). That tells you where we are, what is waiting on whom, and the next step.
-2. If they exist, read [ROADMAP.md](ROADMAP.md) (the plan) and [LEARNING_PROGRESS.md](LEARNING_PROGRESS.md) (the evidence).
+2. If they exist, read [ROADMAP.md](ROADMAP.md) (the plan), [LEARNING_PROGRESS.md](LEARNING_PROGRESS.md) (the evidence) and **[TEACHING_METHOD.md](TEACHING_METHOD.md) (how to teach: mandatory)**.
 3. Greet the learner with a 2–3 line status ("We are at …, the next step is …") before doing anything else.
 4. Do not redo work the log marks as done. Do not re-ask questions the log marks as decided.
+
+## Teaching method (mandatory, learner's explicit request 2026-11-22)
+
+- The learner **starts from zero** and must learn **step by step**. Follow [TEACHING_METHOD.md](TEACHING_METHOD.md) for every lesson, every chat explanation and every new day.
+- Hard rules: restaurant analogy before jargon; **at most 5 new terms per day**; recall questions first; worked example before independent tasks; Feynman-style "explain it in your own words" at the end; never mark a day complete without that evidence.
+- **Every day N gets `/tutorial/N/interactive`** with 2–3 purposeful activities (drag-and-drop sort/match, sequencing, animated step-through simulations), each with a purpose line, keyboard/touch alternative, reduced-motion support and a plain-text twin. Register it in `learning-app/content/interactive/index.ts` and `learning-app/lib/interactive-days.ts`.
+- If the learner says "anlamadım": no blame, find the exact word where they got lost, re-teach with a smaller piece and a simpler analogy, and update TEACHING_METHOD.md if the method itself must change.
 
 ## Session log rule — do this after every meaningful step
 
@@ -48,7 +55,8 @@ Never rewrite or delete old entries. Corrections go in a new entry. Get the date
 - Lab DB: `db-lab/docker-compose.yml` → container `dblab-postgres`, **PostgreSQL 18.6**, `127.0.0.1:5433`, db `restaurant`, user `lab` (password in `db-lab/.env`, local only). Schema `practice` = SQL warm-up playground (seeded by `db-lab/sql/init/001_practice_schema.sql`); `search_path` defaults to `practice`. Quick shell: `docker exec -it dblab-postgres psql -U lab -d restaurant`.
 - `learning-app/` (Next.js 16.4.6, Cache Components on, Vitest). Start: `cd learning-app && npm run dev` → http://localhost:3000/tutorial/2. Checks: `npm test`, `npm run lint`, `npm run typecheck`, `npm run build`. After editing ROADMAP.md or marking a day ☑ in LEARNING_PROGRESS.md run `npm run sync:content` there. Day lessons: `content/lessons/day-NN.ts` + register in `content/lessons/index.ts`.
 - Known quirk: npm skipped the Windows rolldown binding, so Vitest failed to start. Fixed locally with `npm install --no-save @rolldown/binding-win32-x64-msvc@1.2.19` (deliberately NOT saved to package.json). If `npm install`/`node_modules` is ever recreated and Vitest says "Cannot find native binding", run that command again.
-- Next.js with Cache Components has no `dynamicParams = false`; `/tutorial/[day]` is validated by `lib/parse-day.ts` + `proxy.ts` (real 404) + the page itself.
+- Next.js with Cache Components has no `dynamicParams = false`; `/tutorial/[day]` and `/tutorial/[day]/interactive` are validated by `lib/parse-day.ts` + `lib/interactive-days.ts` + `proxy.ts` (real 404) + the pages themselves.
+- `next build` can run while `npm run dev` is running (Next 16 dev uses `.next/dev`; verified 2026-11-22). Do not pipe the build into `head` (it can cut the build short); write the output to a log file instead.
 - The learner learned SQL on **MS SQL Server (T-SQL)**. Point out PostgreSQL syntax differences when they come up.
 
 ## Multi-computer and Git

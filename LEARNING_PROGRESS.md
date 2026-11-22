@@ -34,9 +34,11 @@ Self-reported by the learner instead of answering the 25 questions. "I don't kno
 | Day | Status | Date | Evidence | Confidence (1–5) | Open questions / gaps |
 |---|---|---|---|---|---|
 | 1 | ☑ complete | 2026-11-11 | Honest self-assessment baseline. SQL Q3 attempt: correct JOIN, but compared the order total per line (grain error, missing GROUP BY/HAVING). Q1, Q2, Q4, Q5 not attempted ("forgot") | SQL 2/5 now (window functions were strong before) | Aggregation grain; WHERE vs HAVING; LEFT JOIN for zero rows |
-| 2 | ◐ lesson ready, not yet taught/checked | | | | |
+| 2 | ◐ re-teaching (v2, 2026-11-22) | 2026-11-22 | v1 not understood ("hiçbir şey anlamadım": too many new terms). Lab experiment done correctly: heap, pg_am list, client backend = 2 with two sessions. v2 lesson + /tutorial/2/interactive built with the restaurant analogy | — | Needs a Feynman explanation of the 4 terms in own words |
 
 ## Weak areas (updated after reviews)
+
+- 2026-11-22: Gets lost when many abstract terms come at once. Needs the restaurant analogy first, at most 5 new words per day, games and step-by-step (see TEACHING_METHOD.md).
 
 - Everything beyond basic SQL. Priority order follows the roadmap dependency map.
 - SQL refresh order for warm-ups: GROUP BY/HAVING + grain → LEFT JOIN (zero rows) → date filters (T-SQL vs PostgreSQL) → TOP/LIMIT → window functions (running totals).
