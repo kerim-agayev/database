@@ -47,6 +47,7 @@ export const day02: Lesson = {
     title: "Çalışan PostgreSQL'inin içine bak",
     steps: [
       "Bir terminal aç ve lab container'ının içinde psql'i başlat.",
+      "psql'de bir SQL ifadesi ancak noktalı virgülle (;) biter. Prompt restaurant=# ise yeni komut hazırdır; restaurant-# ise psql ifadenin devamını bekliyordur: ; yaz ya da Ctrl+C ile vazgeç. Çıkmak için \q yaz. Ayrıca cmd'de yapıştırmak için sağ tık ya da Shift+Insert kullan; Ctrl+V bazı konsollarda gizli bir ^V karakteri ekler.",
       "Varsayılan table access method'un hangisi olduğunu ve hangi erişim yöntemlerinin var olduğunu sor.",
       "Sunucunun süreçlerini pg_stat_activity ile listele.",
       "Her backend_type'ı haritayla eşleştir: hangileri bağlantı başına, hangileri arka plan işi?",
@@ -54,8 +55,10 @@ export const day02: Lesson = {
     code: {
       label: "Bir terminalde çalıştır (Docker Desktop açık olmalı)",
       language: "bash",
-      text: `docker exec -it dblab-postgres psql -U lab -d restaurant
+      text: `# 1) Terminalde (cmd ya da PowerShell) psql'i aç:
+docker exec -it dblab-postgres psql -U lab -d restaurant
 
+-- 2) psql'in içinde, her ifadeyi ; ile bitir ve ayrı ayrı gönder:
 SHOW default_table_access_method;
 SELECT amname, amtype FROM pg_am ORDER BY amtype, amname;
 SELECT backend_type FROM pg_stat_activity ORDER BY backend_type;`,

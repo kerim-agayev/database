@@ -118,3 +118,16 @@ Earlier entries on 2026-11-11 were reconstructed at 21:34, so their times are ap
 - Done: Root `.gitignore`, `.gitattributes`, Turkish root `README.md` (folder map, clone → docker → npm → Claude Code steps, session start/end routine, what is not in Git and how it is recreated, books table, troubleshooting incl. the npm native-binding bug per OS), and CLAUDE.md sections "Multi-computer and Git" and a git step in "Session start". Needs Node 22.12+ for Vitest (Next needs 20.9+).
 - Open: **Visibility decision before the first push** (public vs private). Claude recommends private. Changing visibility is an account setting, so it needs the learner's explicit OK. Nothing has been pushed yet.
 - Next: Local commit is made; after the learner decides, push to origin main (`git push -u origin main`).
+
+## 2026-11-22 11:51 — Day 2 psql trouble: missing semicolons, Ctrl+V
+- Found: The learner connected to psql fine, but statements had no `;` (prompt stayed `restaurant-#`, so SHOW/SELECT were glued onto the previous query) and Ctrl+V inserted a ^V control character in classic cmd. Explained in chat; no database problem.
+- Done: Day 2 lesson fixed: worked example now explains the `=#` vs `-#` prompts, Ctrl+C, \q and right-click/Shift+Insert pasting, and the code block separates the shell command from the SQL lines.
+- Open: Learner reruns the three Day 2 queries, then the two-session prediction (client backends) and SQL warm-up Q1. **Push decision is still waiting (A = private + push, B = keep public + push).** Nothing pushed yet; local commit 2da921d exists.
+- Next: Grade the Day 2 answers.
+
+## 2026-11-22 11:52 — Pushed to GitHub (public, option B)
+- Decided (learner): chose B, keep the repo **public** and push (answered with the option text; Claude read it as a choice). Company name "Clopos" remains in CLAUDE.md and DATABASE_CLAUDE.md as a "never touch company data" rule; the learner did not ask to remove it. The learner can still make the repo private later in GitHub settings (history stays, so do it early if at all).
+- Done: Day 2 psql fix committed; pushed `main` to origin (`https://github.com/kerim-agayev/database`).
+- Day 2 experiment result (learner): default_table_access_method = heap; pg_am = 6 index methods (brin, btree, gin, gist, hash, spgist) + heap; pg_stat_activity with two psql sessions = 2 client backends, plus autovacuum launcher, background writer, checkpointer, io worker ×3, logical replication launcher, walwriter. Matches the lesson's expected output.
+- Open: Learner explains in own words why 2 client backends, answers the Day 2 self-check (where does the storage engine end and the query processor begin?), and does SQL warm-up Q1 (LEFT JOIN, Riverside = 0). Day 2 is NOT complete yet.
+- Next: Grade those answers; mark Day 2 ☑ in LEARNING_PROGRESS.md only if understood, then `npm run sync:content`.
