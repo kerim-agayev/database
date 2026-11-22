@@ -1,0 +1,894 @@
+{
+  "weeks": [
+    {
+      "week": 1,
+      "title": "Temeller ve lab kurulumu",
+      "firstDay": 1,
+      "lastDay": 7
+    },
+    {
+      "week": 2,
+      "title": "Veri modelleme ve bütünlük",
+      "firstDay": 8,
+      "lastDay": 14
+    },
+    {
+      "week": 3,
+      "title": "Uygulamada transaction, migration, sorgunun yolu",
+      "firstDay": 15,
+      "lastDay": 21
+    },
+    {
+      "week": 4,
+      "title": "Index'ler ve sorgu planları",
+      "firstDay": 22,
+      "lastDay": 28
+    },
+    {
+      "week": 5,
+      "title": "1. değerlendirme, sonra depolama internals'ı",
+      "firstDay": 29,
+      "lastDay": 35
+    },
+    {
+      "week": 6,
+      "title": "Kurtarma, LSM, MVCC depolama",
+      "firstDay": 36,
+      "lastDay": 42
+    },
+    {
+      "week": 7,
+      "title": "ACID ve izolasyon",
+      "firstDay": 43,
+      "lastDay": 49
+    },
+    {
+      "week": 8,
+      "title": "Kilitler, MVCC, deadlock, eşzamanlılık lab'ı",
+      "firstDay": 50,
+      "lastDay": 56
+    },
+    {
+      "week": 9,
+      "title": "Performans temelleri",
+      "firstDay": 57,
+      "lastDay": 63
+    },
+    {
+      "week": 10,
+      "title": "Ayarlama, benchmark, önbellekleme",
+      "firstDay": 64,
+      "lastDay": 70
+    },
+    {
+      "week": 11,
+      "title": "Replikasyon, partitioning, sharding, tutarlılık",
+      "firstDay": 71,
+      "lastDay": 77
+    },
+    {
+      "week": 12,
+      "title": "Güvenilirlik, güvenlik, operasyon",
+      "firstDay": 78,
+      "lastDay": 84
+    },
+    {
+      "week": 13,
+      "title": "Capstone ve savunma",
+      "firstDay": 85,
+      "lastDay": 90
+    }
+  ],
+  "days": [
+    {
+      "day": 1,
+      "week": 1,
+      "kind": "lesson",
+      "objective": "Seviye tespiti ve grain kavramı: bildiklerin ile internals boşluklarının haritası",
+      "source": "—",
+      "handsOn": "Kendi değerlendirmen ve SQL kalibrasyonu → LEARNING_PROGRESS.md'de başlangıç seviyesi",
+      "selfCheck": "En zayıf 3 konu hangisi?"
+    },
+    {
+      "day": 2,
+      "week": 1,
+      "kind": "lesson",
+      "objective": "Veritabanı, DBMS ve storage engine farkı; bir DBMS'in bileşenleri",
+      "source": "DI Böl. 1, NC S10",
+      "handsOn": "Sim: DBMS mimarisi gezgini → kendi çizimin",
+      "selfCheck": "Storage engine nerede biter, sorgu işlemcisi nerede başlar?"
+    },
+    {
+      "day": 3,
+      "week": 1,
+      "kind": "lesson",
+      "objective": "Bir sorgunun hayatı: istemci → parser → planner → executor → depolama",
+      "source": "DI Böl. 1, PG \"Overview of PostgreSQL Internals\"",
+      "handsOn": "Bir SELECT'i katmanlardan izle → sıra diyagramı",
+      "selfCheck": "Diske dokunmadan önce neler oluyor?"
+    },
+    {
+      "day": 4,
+      "week": 1,
+      "kind": "lesson",
+      "objective": "OLTP ve OLAP; satır ve kolon depolama (giriş)",
+      "source": "DDIA Böl. 3 (kolon depolama), NC S2",
+      "handsOn": "10 restoran iş yükünü sınıflandır → tablo",
+      "selfCheck": "Günlük satış raporu neden OLTP şemasında yavaş çalışır?"
+    },
+    {
+      "day": 5,
+      "week": 1,
+      "kind": "lesson",
+      "objective": "Yerel lab: Docker PostgreSQL, psql, compose, sürümü doğrula",
+      "source": "PG kurulum dokümanı",
+      "handsOn": "Lab: `docker compose up`, bağlan, `SELECT version()` → `db-lab/` iskeleti ve deney günlüğü #1",
+      "selfCheck": "`docker compose down` sonrası ne kalır, ne gider?"
+    },
+    {
+      "day": 6,
+      "week": 1,
+      "kind": "lesson",
+      "objective": "Veri modelleri: ilişkisel, doküman, graf",
+      "source": "DDIA Böl. 2",
+      "handsOn": "Bir siparişi satırlar ve JSON doküman olarak modelle → karşılaştırma notu",
+      "selfCheck": "Doküman modeli ne zaman canını yakar?"
+    },
+    {
+      "day": 7,
+      "week": 1,
+      "kind": "review",
+      "objective": "Tekrar: Hafta 1",
+      "source": "—",
+      "handsOn": "Hatırlama testi ve \"bir sorgunun hayatı\"nı anlatma",
+      "selfCheck": "En az %70"
+    },
+    {
+      "day": 8,
+      "week": 2,
+      "kind": "lesson",
+      "objective": "Restoran SaaS alanının kavramsal modeli",
+      "source": "DDIA Böl. 2",
+      "handsOn": "Varlıklar: tenant, branch, user, menu_item, order, order_line, payment, inventory → ER taslağı",
+      "selfCheck": "Hangi ilişkiler çoka-çok?"
+    },
+    {
+      "day": 9,
+      "week": 2,
+      "kind": "lesson",
+      "objective": "Anahtarlar: doğal ve vekil (surrogate), bigint ve UUID (v4/v7), birincil ve ikincil",
+      "source": "NC S2, NC S15 (Shopify UUID)",
+      "handsOn": "Lab: çekirdek tabloları oluştur → `docs/architecture/schema-v1.md`",
+      "selfCheck": "Rastgele UUID'ler B-tree eklemelerini neden yavaşlatabilir?"
+    },
+    {
+      "day": 10,
+      "week": 2,
+      "kind": "lesson",
+      "objective": "Kısıtlar (constraint) birer değişmez kural olarak: NOT NULL, CHECK, UNIQUE, FK davranışları, exclusion",
+      "source": "PG \"Constraints\"",
+      "handsOn": "Lab: geçersiz siparişler eklemeyi dene → kısıt hata günlüğü",
+      "selfCheck": "Hangi değişmez kuralı tek başına bir CHECK uygulayamaz?"
+    },
+    {
+      "day": 11,
+      "week": 2,
+      "kind": "lesson",
+      "objective": "Normalizasyon 1NF → 3NF/BCNF",
+      "source": "DDIA Böl. 2",
+      "handsOn": "Sim: dağınık bir sipariş çizelgesini sürükle-bırak ile normalleştir → normalleştirilmiş şema",
+      "selfCheck": "3NF hangi anomaliyi ortadan kaldırır?"
+    },
+    {
+      "day": 12,
+      "week": 2,
+      "kind": "lesson",
+      "objective": "Denormalizasyon ve türetilmiş veri: fiyat anlık görüntüsü, sipariş toplamı",
+      "source": "DDIA Böl. 3/11 (türetilmiş veri)",
+      "handsOn": "Karar ver: `order_total` saklanır mı, hesaplanır mı? → ADR taslağı",
+      "selfCheck": "Saklanan bir toplamın tutarlılık maliyeti nedir?"
+    },
+    {
+      "day": 13,
+      "week": 2,
+      "kind": "lesson",
+      "objective": "Çok kiracılık (multi-tenancy): paylaşılan şema ve tenant_id, tenant başına şema, tenant başına veritabanı; RLS giriş",
+      "source": "PG \"Row Security Policies\", DRE Böl. 12",
+      "handsOn": "3 seçeneği karşılaştır → ADR: tenant izolasyonu",
+      "selfCheck": "Eksik bir `WHERE tenant_id` nasıl veri sızıntısına dönüşür?"
+    },
+    {
+      "day": 14,
+      "week": 2,
+      "kind": "review",
+      "objective": "Tekrar: Hafta 2 ve Prisma şeması, sentetik tohum verisi",
+      "source": "Prisma dokümanı",
+      "handsOn": "Lab: `schema.prisma` ve tohum script'i (sahte veri) → doldurulmuş DB",
+      "selfCheck": "Prisma modelini SQL DDL ile karşılaştır: Prisma neyi gizledi?"
+    },
+    {
+      "day": 15,
+      "week": 3,
+      "kind": "lesson",
+      "objective": "Transaction nedir: BEGIN/COMMIT/ROLLBACK, autocommit",
+      "source": "DDIA Böl. 7 (giriş), NC S1",
+      "handsOn": "Lab: iki psql oturumu, commit edilmemiş verinin görünürlüğü → deney günlüğü",
+      "selfCheck": "Her tek ifade bir transaction mıdır?"
+    },
+    {
+      "day": 16,
+      "week": 3,
+      "kind": "lesson",
+      "objective": "Atomiklik ve dayanıklılık temelleri; savepoint; Prisma `$transaction`",
+      "source": "DDIA Böl. 7, PG \"SAVEPOINT\"",
+      "handsOn": "Bir siparişi atomik ver (sipariş, satırlar, stok) → kod ve test",
+      "selfCheck": "Bir adım hata fırlatırsa Prisma ne yapar?"
+    },
+    {
+      "day": 17,
+      "week": 3,
+      "kind": "lesson",
+      "objective": "Idempotency ve tekrar denemeye güvenli işlemler (ödemeler)",
+      "source": "DDIA Böl. 11 (tam-bir-kez fikirleri)",
+      "handsOn": "Ödemeler için idempotency-key tablosu → Sim: ödemeye çift tıklama",
+      "selfCheck": "Anahtarsız \"zaman aşımında tekrar dene\" neden tehlikeli?"
+    },
+    {
+      "day": 18,
+      "week": 3,
+      "kind": "lesson",
+      "objective": "Şema evrimi: geriye/ileriye uyumluluk, expand/contract",
+      "source": "DDIA Böl. 4, DRE Böl. 8",
+      "handsOn": "Bir kolonu 3 deploy'da güvenle yeniden adlandır → migration planı",
+      "selfCheck": "Eski uygulama sürümleri çalışırken neden tek adımda yeniden adlandıramazsın?"
+    },
+    {
+      "day": 19,
+      "week": 3,
+      "kind": "lesson",
+      "objective": "Sorgu işleme: parse, rewrite, plan, execute; EXPLAIN temelleri",
+      "source": "PG \"Using EXPLAIN\", NC S3",
+      "handsOn": "Lab: 5 sorguya EXPLAIN → notlu planlar",
+      "selfCheck": "\"Cost\" neyle ölçülür?"
+    },
+    {
+      "day": 20,
+      "week": 3,
+      "kind": "lesson",
+      "objective": "İstatistikler, seçicilik (selectivity), kardinalite tahmini",
+      "source": "PG \"Statistics Used by the Planner\"",
+      "handsOn": "Lab: `pg_stats`, ANALYZE, çarpık veride yanlış tahmin → not",
+      "selfCheck": "Tahminler 100 kat yanlış olunca ne ters gider?"
+    },
+    {
+      "day": 21,
+      "week": 3,
+      "kind": "review",
+      "objective": "Tekrar: Hafta 3",
+      "source": "—",
+      "handsOn": "Test ve expand/contract'ı bir \"ekip arkadaşına\" anlatma",
+      "selfCheck": "En az %70"
+    },
+    {
+      "day": 22,
+      "week": 4,
+      "kind": "lesson",
+      "objective": "1M+ siparişte tam tablo taraması (full table scan) referansı",
+      "source": "NC S3/S4",
+      "handsOn": "Lab: 1M sipariş üret, sequential scan süresini ölç → referans değer",
+      "selfCheck": "Tarama maliyeti neden satır sayısıyla değil page sayısıyla artar?"
+    },
+    {
+      "day": 23,
+      "week": 4,
+      "kind": "lesson",
+      "objective": "B-tree / B+tree yapısı ve arama",
+      "source": "DI Böl. 2, NC S4",
+      "handsOn": "Sim: B+tree aramasını adım adım izle → kendi cümlelerinle anlat",
+      "selfCheck": "B+tree yaprakları neden birbirine bağlıdır?"
+    },
+    {
+      "day": 24,
+      "week": 4,
+      "kind": "lesson",
+      "objective": "B-tree ekleme, page split, fill factor; index'in yazma maliyeti",
+      "source": "DI Böl. 2/4",
+      "handsOn": "Sim: page split animasyonu; Lab: 0/3/6 index ile ekleme maliyeti",
+      "selfCheck": "Index'ler yazmayı neden yavaşlatır?"
+    },
+    {
+      "day": 25,
+      "week": 4,
+      "kind": "lesson",
+      "objective": "Index scan, index-only scan ve bitmap scan",
+      "source": "PG \"Index-Only Scans\", NC S3/S15",
+      "handsOn": "Lab: her tarama türünü zorla → plan karşılaştırması",
+      "selfCheck": "Index-only scan neden yine de heap'i ziyaret edebilir?"
+    },
+    {
+      "day": 26,
+      "week": 4,
+      "kind": "lesson",
+      "objective": "Bileşik (composite) index'ler ve kolon sırası; hangi sorgunun fayda göreceğini tahmin et",
+      "source": "*Use The Index, Luke!*, NC S3",
+      "handsOn": "Sim: bileşik index kurma oyunu; Lab: tahminleri doğrula",
+      "selfCheck": "`(branch_id, created_at)` neden bir sorguya yardım eder, diğerine etmez?"
+    },
+    {
+      "day": 27,
+      "week": 4,
+      "kind": "lesson",
+      "objective": "Kısmi (partial), kapsayıcı (INCLUDE), ifade (expression) index'leri; kullanılmayan index'ler",
+      "source": "PG \"Indexes\"",
+      "handsOn": "Lab: açık siparişler için kısmi index → önce ve sonra",
+      "selfCheck": "Bir index ne zaman saf maliyettir?"
+    },
+    {
+      "day": 28,
+      "week": 4,
+      "kind": "lesson",
+      "objective": "Join algoritmaları: nested loop, hash, merge",
+      "source": "PG \"Planner/Optimizer\", DI Böl. 1",
+      "handsOn": "Lab: aynı join'i 3 planla çalıştır (planner anahtarlarıyla) → karşılaştırma",
+      "selfCheck": "Nested loop ne zaman kazanır?"
+    },
+    {
+      "day": 29,
+      "week": 5,
+      "kind": "lesson",
+      "objective": "N+1 sorguları, ORM eager/lazy loading, toplu işlem; offset ve keyset sayfalama",
+      "source": "Prisma dokümanı, NC S7",
+      "handsOn": "Lab: Prisma N+1 ve `include` karşılaştırması (sorgu günlüğü); Sim: offset ve keyset",
+      "selfCheck": "`OFFSET 100000` neden giderek yavaşlar?"
+    },
+    {
+      "day": 30,
+      "week": 5,
+      "kind": "gate",
+      "objective": "30. gün değerlendirmesi",
+      "source": "Hafta 1–4",
+      "handsOn": "5 restoran sorgusu için index tasarla ve 3 planı oku",
+      "selfCheck": "Kapıyı geç"
+    },
+    {
+      "day": 31,
+      "week": 5,
+      "kind": "lesson",
+      "objective": "Page, tuple, heap dosyaları, page düzeni",
+      "source": "DI Böl. 3, PG \"Database Page Layout\"",
+      "handsOn": "Lab: `pageinspect`, `ctid` → page anatomisi notu",
+      "selfCheck": "Veritabanları neden satır yerine page okur?"
+    },
+    {
+      "day": 32,
+      "week": 5,
+      "kind": "lesson",
+      "objective": "Satır ve kolon depolama; sıkıştırma ve kodlama",
+      "source": "DDIA Böl. 3, DI Böl. 1",
+      "handsOn": "Satış raporunun satır ve kolon depolamada okuyacağı bayt miktarını tahmin et → hesap",
+      "selfCheck": "Kolon depolar neden daha iyi sıkıştırır?"
+    },
+    {
+      "day": 33,
+      "week": 5,
+      "kind": "lesson",
+      "objective": "Buffer pool, bellek hiyerarşisi, sıralı ve rastgele I/O",
+      "source": "SP Böl. 7–9 (seçili), DI Böl. 5",
+      "handsOn": "Lab: `pg_buffercache`, soğuk ve sıcak sorgu süreleri",
+      "selfCheck": "İkinci çalıştırma neden hızlıdır ve ne zaman yanıltıcıdır?"
+    },
+    {
+      "day": 34,
+      "week": 5,
+      "kind": "lesson",
+      "objective": "Write-ahead log: neden, LSN, redo",
+      "source": "DI Böl. 5, NC S16 (WAL)",
+      "handsOn": "Lab: bir insert sonrası `pg_waldump`; Sim: WAL adım adım",
+      "selfCheck": "Log neden veri page'inden önce yazılır?"
+    },
+    {
+      "day": 35,
+      "week": 5,
+      "kind": "lesson",
+      "objective": "Checkpoint, fsync, `synchronous_commit` ödünleşimi",
+      "source": "PG \"WAL Configuration\"",
+      "handsOn": "Lab: sync açık ve kapalıyken commit gecikmesini ölç",
+      "selfCheck": "Sync commit kapalıyken tam olarak ne kaybedebilirsin?"
+    },
+    {
+      "day": 36,
+      "week": 6,
+      "kind": "lesson",
+      "objective": "Çökme kurtarma (crash recovery): redo, ARIES kavramları",
+      "source": "DI Böl. 5, ARIES makalesi *(opsiyonel)*",
+      "handsOn": "Lab: yük sırasında container'ı sert kapat, yeniden başlat, günlükleri oku → deney raporu",
+      "selfCheck": "Commit edilmiş veri çökme sonrası neden güvendedir?"
+    },
+    {
+      "day": 37,
+      "week": 6,
+      "kind": "lesson",
+      "objective": "Undo ve sürüm depolama: PostgreSQL heap sürümleri ve InnoDB undo",
+      "source": "DI Böl. 5, NC S16",
+      "handsOn": "Diyagramları karşılaştır → not",
+      "selfCheck": "Bir satırın eski sürümü her iki motorda nerede yaşar?"
+    },
+    {
+      "day": 38,
+      "week": 6,
+      "kind": "lesson",
+      "objective": "LSM-tree: memtable, SSTable, compaction",
+      "source": "DDIA Böl. 3, DI Böl. 7",
+      "handsOn": "Sim: LSM yazma ve compaction adım adım",
+      "selfCheck": "LSM yazmaları neden ucuzdur?"
+    },
+    {
+      "day": 39,
+      "week": 6,
+      "kind": "lesson",
+      "objective": "Bloom filter, tombstone; okuma/yazma/alan amplifikasyonu",
+      "source": "DI Böl. 7, NC S3/S16",
+      "handsOn": "Sim: Bloom filter yanlış-pozitif kaydırıcısı",
+      "selfCheck": "Silmeler LSM'de neden iş yaratır?"
+    },
+    {
+      "day": 40,
+      "week": 6,
+      "kind": "lesson",
+      "objective": "B-tree ve LSM ödünleşimleri; motor turu (InnoDB, RocksDB, SQLite)",
+      "source": "DI Böl. 7, NC S10",
+      "handsOn": "3 iş yükü için motor seç → ADR tarzı not",
+      "selfCheck": "Yalnızca ekleme yapılan bir olay günlüğü için hangisi?"
+    },
+    {
+      "day": 41,
+      "week": 6,
+      "kind": "lesson",
+      "objective": "VACUUM, bloat, HOT güncellemeler, bir update neden tüm index'lere dokunur",
+      "source": "PG \"Routine Vacuuming\", NC S15",
+      "handsOn": "Lab: update döngüsü, ölü tuple'ları ve bloat'u izle",
+      "selfCheck": "VACUUM neyi geri kazanır, neyi kazanmaz?"
+    },
+    {
+      "day": 42,
+      "week": 6,
+      "kind": "review",
+      "objective": "Tekrar: Hafta 5–6",
+      "source": "—",
+      "handsOn": "Depolama anlatımı (page → buffer → WAL → disk)",
+      "selfCheck": "En az %70"
+    },
+    {
+      "day": 43,
+      "week": 7,
+      "kind": "lesson",
+      "objective": "ACID: gerçek garantiler ve pazarlama dili; \"C\" uygulamanın işidir",
+      "source": "DDIA Böl. 7",
+      "handsOn": "Her harfi kesin bir garantiye yeniden yaz → not",
+      "selfCheck": "Hangi ACID özelliği yalnızca veritabanına bağlı değildir?"
+    },
+    {
+      "day": 44,
+      "week": 7,
+      "kind": "lesson",
+      "objective": "Anomaliler: dirty read, non-repeatable read, phantom",
+      "source": "DDIA Böl. 7, Berenson 1995 *(opsiyonel)*",
+      "handsOn": "Sim: iki işçili zaman çizelgesinde her anomaliyi göster",
+      "selfCheck": "Read committed hangi anomaliye izin verir?"
+    },
+    {
+      "day": 45,
+      "week": 7,
+      "kind": "lesson",
+      "objective": "PostgreSQL'de Read Committed",
+      "source": "PG \"Transaction Isolation\"",
+      "handsOn": "Lab: iki oturumla non-repeatable read'i yeniden üret",
+      "selfCheck": "PostgreSQL neden hiç dirty read göstermez?"
+    },
+    {
+      "day": 46,
+      "week": 7,
+      "kind": "lesson",
+      "objective": "Snapshot isolation / Repeatable Read; xmin/xmax görünürlüğü",
+      "source": "DDIA Böl. 7, PG \"MVCC\"",
+      "handsOn": "Lab: satır sürümlerini `xmin`/`xmax` ile oku",
+      "selfCheck": "Snapshot ve Repeatable Read PostgreSQL'de aynı şey mi?"
+    },
+    {
+      "day": 47,
+      "week": 7,
+      "kind": "lesson",
+      "objective": "Kayıp güncellemeler (lost update): atomik UPDATE, `SELECT … FOR UPDATE`, sürüm kolonu (CAS)",
+      "source": "DDIA Böl. 7",
+      "handsOn": "Lab: bir stok kayıp güncellemesini yeniden üret, 3 yolla düzelt",
+      "selfCheck": "Uygulama sunucuları arasında kilitsiz hangi düzeltme işe yarar?"
+    },
+    {
+      "day": 48,
+      "week": 7,
+      "kind": "lesson",
+      "objective": "Write skew ve phantom'lar: bir masaya çifte rezervasyon",
+      "source": "DDIA Böl. 7, NC S7",
+      "handsOn": "Lab ve Sim: bir masa için iki rezervasyon → düzelt",
+      "selfCheck": "Satır kilitleme tek başına write skew'u neden engellemez?"
+    },
+    {
+      "day": 49,
+      "week": 7,
+      "kind": "review",
+      "objective": "Tekrar: Hafta 7",
+      "source": "—",
+      "handsOn": "Test ve bir anomali zaman çizelgesini anlatma",
+      "selfCheck": "En az %70"
+    },
+    {
+      "day": 50,
+      "week": 8,
+      "kind": "lesson",
+      "objective": "Serializable (SSI) ve uygulamada tekrar deneme döngüleri",
+      "source": "PG \"Serializable Isolation\", DDIA Böl. 7",
+      "handsOn": "Lab: serialization failure ve tekrar deneme sarmalayıcısı → kod ve test",
+      "selfCheck": "Serializable transaction'lar neden tekrar denenebilir olmalı?"
+    },
+    {
+      "day": 51,
+      "week": 8,
+      "kind": "lesson",
+      "objective": "Lock ve latch farkı; satır ve tablo kilit modları; `pg_locks`",
+      "source": "DI Böl. 5, PG \"Explicit Locking\"",
+      "handsOn": "Lab: bir update sırasında kilitleri `pg_locks`'ta izle",
+      "selfCheck": "Lock ile latch arasındaki fark nedir?"
+    },
+    {
+      "day": 52,
+      "week": 8,
+      "kind": "lesson",
+      "objective": "Deadlock: yeniden üret, tespit et, kilit sırasıyla çöz",
+      "source": "PG \"Deadlocks\", NC S7",
+      "handsOn": "Lab ve Sim: iki işçi deadlock'a girer → düzelt",
+      "selfCheck": "Tutarlı kilit sırası deadlock'u neden önler?"
+    },
+    {
+      "day": 53,
+      "week": 8,
+      "kind": "lesson",
+      "objective": "2PL, MVCC ve iyimser/kötümser eşzamanlılık kontrolü",
+      "source": "DI Böl. 5, NC S16",
+      "handsOn": "Karşılaştırma tablosu → not",
+      "selfCheck": "İyimser kontrol ne zaman çöker?"
+    },
+    {
+      "day": 54,
+      "week": 8,
+      "kind": "lesson",
+      "objective": "DDL ve kilitler: `CREATE INDEX CONCURRENTLY`, `lock_timeout`, güvenli migration",
+      "source": "PG \"CREATE INDEX\", DRE Böl. 8",
+      "handsOn": "Lab: yazmaları bloklayan index oluşturma ile eşzamanlı oluşturma",
+      "selfCheck": "\"Zararsız\" bir ALTER production'ı nasıl düşürebilir?"
+    },
+    {
+      "day": 55,
+      "week": 8,
+      "kind": "lesson",
+      "objective": "Eşzamanlılık lab'ı: sipariş/ödeme/stok simülatörü (fazla satış, çift tahsilat)",
+      "source": "—",
+      "handsOn": "Sim ve Lab: N işçi, iç içe geçmeler, düzeltmeler → deney raporu",
+      "selfCheck": "Hangi düzeltmeyi seçtin ve bedeli ne?"
+    },
+    {
+      "day": 56,
+      "week": 8,
+      "kind": "review",
+      "objective": "Tekrar: Hafta 8 ve uzun süren transaction'ın maliyeti",
+      "source": "NC S3 makalesi",
+      "handsOn": "Test",
+      "selfCheck": "En az %70"
+    },
+    {
+      "day": 57,
+      "week": 9,
+      "kind": "lesson",
+      "objective": "Gecikme ve verim (latency, throughput); p50/p95/p99; ortalamalar neden yalan söyler",
+      "source": "DDIA Böl. 1, SP Böl. 2",
+      "handsOn": "Üretilmiş bir gecikme günlüğünden yüzdelikleri hesapla",
+      "selfCheck": "Tek bir kullanıcının sayfa yüklemesi için p99 neden önemli?"
+    },
+    {
+      "day": 58,
+      "week": 9,
+      "kind": "lesson",
+      "objective": "Kuyruk (queueing), Little yasası, doygunluk; USE yöntemi",
+      "source": "SP Böl. 2",
+      "handsOn": "Sim: kuyruk doygunluğu kaydırıcısı",
+      "selfCheck": "%90 kullanımda gecikmeye ne olur?"
+    },
+    {
+      "day": 59,
+      "week": 9,
+      "kind": "lesson",
+      "objective": "PostgreSQL'in bağlantı başına süreç modeli; bağlantı maliyeti; cursor'lar",
+      "source": "PG \"Architecture\", NC S11/S15",
+      "handsOn": "Lab: 100 bağlantı aç, belleği izle",
+      "selfCheck": "Bağlantılar PostgreSQL'de neden pahalıdır?"
+    },
+    {
+      "day": 60,
+      "week": 9,
+      "kind": "gate",
+      "objective": "60. gün değerlendirmesi",
+      "source": "Hafta 5–8",
+      "handsOn": "Bir eşzamanlılık hatasını yeniden üret, düzelt ve depolamayı anlat",
+      "selfCheck": "Kapıyı geç"
+    },
+    {
+      "day": 61,
+      "week": 9,
+      "kind": "lesson",
+      "objective": "Connection pooling: boyutlandırma, PgBouncer modları, zaman aşımları",
+      "source": "PgBouncer dokümanı, NC S7",
+      "handsOn": "Lab: pooler'lı ve pooler'sız pgbench → Sim: pool doygunluğu",
+      "selfCheck": "Daha büyük bir pool neden daha yavaş olabilir?"
+    },
+    {
+      "day": 62,
+      "week": 9,
+      "kind": "lesson",
+      "objective": "Serverless bağlantılar; Neon pooler *(Neon kurulumu yalnızca öğrenci onayıyla)*",
+      "source": "Neon dokümanı (doğrulanacak)",
+      "handsOn": "Deploy şekilli test: cold start ve pool'lanmış bağlantı",
+      "selfCheck": "1.000 fonksiyon ayrı ayrı bağlantı açınca ne bozulur?"
+    },
+    {
+      "day": 63,
+      "week": 9,
+      "kind": "review",
+      "objective": "Tekrar: Hafta 9",
+      "source": "—",
+      "handsOn": "Test",
+      "selfCheck": "En az %70"
+    },
+    {
+      "day": 64,
+      "week": 10,
+      "kind": "lesson",
+      "objective": "Sorgu ayarlama yöntemi: `pg_stat_statements`, `auto_explain`",
+      "source": "PG dokümanı, SP Böl. 5",
+      "handsOn": "Lab: en pahalı 3 sorguyu bul",
+      "selfCheck": "Neden tek bir sorgudan değil iş yükünden başlanır?"
+    },
+    {
+      "day": 65,
+      "week": 10,
+      "kind": "lesson",
+      "objective": "Benchmark tasarımı: pgbench, sıcak ve soğuk, temsil edici hacim",
+      "source": "SP Böl. 12",
+      "handsOn": "Bir benchmark planı yaz ve çalıştır → deney raporu",
+      "selfCheck": "Bir benchmark'ın yalan söyleyebileceği 3 yolu say."
+    },
+    {
+      "day": 66,
+      "week": 10,
+      "kind": "lesson",
+      "objective": "Önbellek katmanları, geçersiz kılma (invalidation), bayat veri",
+      "source": "DDIA Böl. 11 (türetilmiş veri), NC S12",
+      "handsOn": "Sim: bayat okumalı cache-aside",
+      "selfCheck": "Bayat bir menü fiyatı ne zaman kabul edilebilir, ne zaman değil?"
+    },
+    {
+      "day": 67,
+      "week": 10,
+      "kind": "lesson",
+      "objective": "Zaman aşımları, tekrar denemeler, geri basınç (backpressure); `statement_timeout`",
+      "source": "DRE Böl. 4, SP Böl. 2",
+      "handsOn": "Lab: tekrar deneme fırtınası simülasyonu → jitter ve limitlerle düzelt",
+      "selfCheck": "Tekrar denemeler bir kesintiyi nasıl kötüleştirir?"
+    },
+    {
+      "day": 68,
+      "week": 10,
+      "kind": "lesson",
+      "objective": "`COUNT(*)`, `SELECT *`, büyük sonuç kümeleri, NULL numaraları",
+      "source": "NC S15/S16",
+      "handsOn": "Lab: her birini ölç → not",
+      "selfCheck": "`COUNT(*)` büyük bir PostgreSQL tablosunda neden yavaştır?"
+    },
+    {
+      "day": 69,
+      "week": 10,
+      "kind": "lesson",
+      "objective": "learning-app'te performans paneli ve deney yazısı",
+      "source": "—",
+      "handsOn": "Gerçek lab sayılarıyla (açıkça etiketli) panel",
+      "selfCheck": "Hangi sonuç seni şaşırttı ve neden?"
+    },
+    {
+      "day": 70,
+      "week": 10,
+      "kind": "review",
+      "objective": "Tekrar: Hafta 10",
+      "source": "—",
+      "handsOn": "Test",
+      "selfCheck": "En az %70"
+    },
+    {
+      "day": 71,
+      "week": 11,
+      "kind": "lesson",
+      "objective": "Primary/replica; senkron ve asenkron; streaming replikasyon",
+      "source": "DDIA Böl. 5, NC S8",
+      "handsOn": "Lab: 2 container'lı streaming replikasyon",
+      "selfCheck": "Asenkron replikasyon neyden vazgeçmek demektir?"
+    },
+    {
+      "day": 72,
+      "week": 11,
+      "kind": "lesson",
+      "objective": "Replikasyon gecikmesi; kendi yazdığını okuma (read-your-writes), monoton okumalar",
+      "source": "DDIA Böl. 5",
+      "handsOn": "Lab ve Sim: ödeme sonrası bayat okuma",
+      "selfCheck": "Kullanıcıya kendi taze yazısını nasıl gösterirsin?"
+    },
+    {
+      "day": 73,
+      "week": 11,
+      "kind": "lesson",
+      "objective": "Failover, split brain, lider seçimi",
+      "source": "DDIA Böl. 8–9, DI Böl. 10",
+      "handsOn": "Sim: failover zaman çizelgesi → runbook taslağı",
+      "selfCheck": "Otomatik failover neden risklidir?"
+    },
+    {
+      "day": 74,
+      "week": 11,
+      "kind": "lesson",
+      "objective": "Deklaratif partitioning (siparişleri aya göre)",
+      "source": "PG \"Table Partitioning\", NC S5",
+      "handsOn": "Lab: partition'lı siparişler ve planlarda partition pruning",
+      "selfCheck": "Partitioning bir sorguyu ne zaman hızlandırmaz?"
+    },
+    {
+      "day": 75,
+      "week": 11,
+      "kind": "lesson",
+      "objective": "Sharding: anahtar seçimi, hash ve range, tutarlı hash, sıcak noktalar, yeniden dengeleme",
+      "source": "DDIA Böl. 6, NC S6",
+      "handsOn": "Tenant'lar için shard anahtarı seç → ADR",
+      "selfCheck": "\"Büyük bir tenant\" neden sıcak noktadır?"
+    },
+    {
+      "day": 76,
+      "week": 11,
+      "kind": "lesson",
+      "objective": "Tutarlılık modelleri, CAP/PACELC, quorum'lar; 2PC; outbox deseni",
+      "source": "DDIA Böl. 9, DI Böl. 11/13",
+      "handsOn": "Sim: quorum R/W kaydırıcısı; outbox tasarımı",
+      "selfCheck": "Dağıtık transaction yerine neden outbox tercih edilir?"
+    },
+    {
+      "day": 77,
+      "week": 11,
+      "kind": "review",
+      "objective": "Tekrar: Hafta 11",
+      "source": "—",
+      "handsOn": "Test",
+      "selfCheck": "En az %70"
+    },
+    {
+      "day": 78,
+      "week": 12,
+      "kind": "lesson",
+      "objective": "Yedekler: mantıksal ve fiziksel (`pg_dump` ve `pg_basebackup`); geri yükleme tatbikatı",
+      "source": "DRE Böl. 7, PG \"Backup and Restore\"",
+      "handsOn": "Lab: yedek al, sil, geri yükle, satır sayılarını doğrula",
+      "selfCheck": "Hiç geri yüklemediğin bir yedek nedir?"
+    },
+    {
+      "day": 79,
+      "week": 12,
+      "kind": "lesson",
+      "objective": "WAL arşivleme ile PITR; RPO/RTO",
+      "source": "DRE Böl. 7, PG \"Continuous Archiving\"",
+      "handsOn": "Lab: hatalı bir DELETE'ten hemen öncesine kurtar",
+      "selfCheck": "RPO'nu ne belirler?"
+    },
+    {
+      "day": 80,
+      "week": 12,
+      "kind": "lesson",
+      "objective": "SLO'lar, izleme, alarm, kapasite planlama",
+      "source": "DRE Böl. 2/4",
+      "handsOn": "Restoran API'si için 3 SLO ve alarm tanımla",
+      "selfCheck": "Hangi metrik seni gece 3'te uyandırırdı?"
+    },
+    {
+      "day": 81,
+      "week": 12,
+      "kind": "lesson",
+      "objective": "Güvenlik: roller, en az ayrıcalık, tenant'lar için RLS, TLS, sırlar (secret)",
+      "source": "DRE Böl. 9, PG \"Client Authentication\", NC S13",
+      "handsOn": "Lab: DDL yetkisiz uygulama rolü ve RLS politikası testi",
+      "selfCheck": "Uygulama kullanıcısı yapmaması gereken neyi yapabiliyor?"
+    },
+    {
+      "day": 82,
+      "week": 12,
+      "kind": "lesson",
+      "objective": "Veri yaşam döngüsü: saklama süresi, silme, gizlilik, güvenli test verisi, denetim",
+      "source": "DRE Böl. 9",
+      "handsOn": "Saklama politikası ve soft/hard delete ADR'si",
+      "selfCheck": "\"Satırı sil\" neden KVKK/GDPR için yeterli değildir?"
+    },
+    {
+      "day": 83,
+      "week": 12,
+      "kind": "lesson",
+      "objective": "Veritabanı testi: entegrasyon testleri, fixture'lar, izolasyon, migration testleri",
+      "source": "Prisma/PG dokümanı",
+      "handsOn": "Lab: her çalıştırmada test DB'si ve migration testi",
+      "selfCheck": "Testlerin durumu paylaşmasını nasıl engellersin?"
+    },
+    {
+      "day": 84,
+      "week": 12,
+      "kind": "review",
+      "objective": "Tekrar: Hafta 11–12 ve capstone kapsamı",
+      "source": "—",
+      "handsOn": "Capstone kapsam belgesi",
+      "selfCheck": "Kapsam üzerinde anlaşıldı"
+    },
+    {
+      "day": 85,
+      "week": 13,
+      "kind": "lesson",
+      "objective": "Capstone yapım 1: şema, index'ler ve transaction'ları birleştir",
+      "source": "Capstone çalışması (tüm kaynaklar)",
+      "handsOn": "Çalışan bir özellik dilimi ve testler",
+      "selfCheck": "Değişmez kuralları geçiyor mu?"
+    },
+    {
+      "day": 86,
+      "week": 13,
+      "kind": "lesson",
+      "objective": "Capstone yapım 2: eşzamanlılığa dayanıklı sipariş ve ödemeler",
+      "source": "Capstone çalışması (tüm kaynaklar)",
+      "handsOn": "Simülatör senaryosu ve düzeltme",
+      "selfCheck": "Fazla satışı yeniden üretip önleyebiliyor musun?"
+    },
+    {
+      "day": 87,
+      "week": 13,
+      "kind": "lesson",
+      "objective": "Capstone deneyleri: performans ve planlar",
+      "source": "Capstone çalışması (tüm kaynaklar)",
+      "handsOn": "Önce/sonra karşılaştırmalı deney raporu",
+      "selfCheck": "Sonuçlar tekrarlanabilir mi?"
+    },
+    {
+      "day": 88,
+      "week": 13,
+      "kind": "lesson",
+      "objective": "Arıza tatbikatları: çökme, replika gecikmesi, geri yükleme",
+      "source": "Capstone çalışması (tüm kaynaklar)",
+      "handsOn": "Tatbikat raporları ve runbook",
+      "selfCheck": "Ölçtüğün RTO neydi?"
+    },
+    {
+      "day": 89,
+      "week": 13,
+      "kind": "gate",
+      "objective": "90. gün değerlendirmesi, 1. kısım: yazılı senaryolar",
+      "source": "Capstone çalışması (tüm kaynaklar)",
+      "handsOn": "Senaryo cevapları",
+      "selfCheck": "Kapıyı geç"
+    },
+    {
+      "day": 90,
+      "week": 13,
+      "kind": "gate",
+      "objective": "Sözlü savunma, geriye bakış ve telafi planı",
+      "source": "Capstone çalışması (tüm kaynaklar)",
+      "handsOn": "LEARNING_PROGRESS'te son kayıt",
+      "selfCheck": "Dürüst seviye değerlendirmesi"
+    }
+  ]
+}

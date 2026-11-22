@@ -1,0 +1,12 @@
+CMU 15-445 (Andy Pavlo): YouTube'da ücretsiz üniversite dersi. Internals konusunda kurstan daha derin.
+Use The Index, Luke!: indexleme üzerine ücretsiz online kitap.
+Hussein Nasser'in YouTube kanalı: kursun konularının bir kısmını ücretsiz anlatıyor. Hangi videoların var olduğunu kontrol etmem gerekiyor.
+---
+---
+---
+90 günde yapılamayacak şeyler:
+
+DBA seviyesinde PostgreSQL tuning
+Query optimizer'ın kaynak kodu düzeyinde bilgisi
+MySQL ve NoSQL'de derinlik (bunları karşılaştırma düzeyinde göreceğiz)
+Dağıtık veritabanını sıfırdan inşa etmek

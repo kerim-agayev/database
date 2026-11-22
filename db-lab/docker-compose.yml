@@ -1,0 +1,26 @@
+# Local PostgreSQL lab (ADR-0002). Synthetic data only.
+# Port 5433 on the host, because 5432 is already used by a native PostgreSQL service on this machine.
+# Bound to 127.0.0.1 so only this computer can connect.
+name: dblab
+
+services:
+  postgres:
+    image: postgres:18.6   # current stable (postgresql.org/support/versioning, checked 2026-11-11)
+    container_name: dblab-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql   # data survives `docker compose down`; `down -v` deletes it
+      - ./sql/init:/docker-entrypoint-initdb.d:ro   # runs ONLY when the data volume is empty
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pgdata:

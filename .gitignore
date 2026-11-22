@@ -1,0 +1,19 @@
+# Telifli kitap PDF'leri: herkese açık/uzak depoya konmaz. Her bilgisayara kendin koy (bkz. README).
+*.pdf
+
+# Gizli ve yerel dosyalar
+.env
+.env.*
+!.env.example
+
+# Bağımlılıklar ve derleme çıktıları
+node_modules/
+.next/
+out/
+coverage/
+
+# İşletim sistemi ve editör artıkları
+.DS_Store
+Thumbs.db
+*.log
+*.tsbuildinfo

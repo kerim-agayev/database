@@ -1,0 +1,3 @@
+# Windows, macOS ve Linux arasında satır sonu farklarını önler.
+* text=auto
+*.pdf binary
